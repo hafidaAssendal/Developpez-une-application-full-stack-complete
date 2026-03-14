@@ -1,30 +1,48 @@
 package com.openclassrooms.mddapi.models;
 
-import lombok.Data;
+import lombok.*;
+import lombok.experimental.Accessors;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import javax.persistence.*;
+import javax.validation.constraints.*;
 import java.time.LocalDateTime;
 import java.util.List;
 
-@Data
+
 @Entity
-@Table(name = "users")
+@Table(name = "users", uniqueConstraints = {
+  @UniqueConstraint(columnNames = "email"),
+  @UniqueConstraint(columnNames = "username")
+})
+@Data
+@Accessors(chain = true)
+@EntityListeners(AuditingEntityListener.class)
+@EqualsAndHashCode(of = {"id"})
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString(exclude = {"articles", "comments", "subscriptions"})
 public class User {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @Column(nullable = false, unique = true)
-  private String username;
-
-  @Column(nullable = false, unique = true)
+  @NonNull
+  @Size(max = 50)
+  @Email
   private String email;
 
-  @Column(nullable = false)
-  private String password;
+  @NonNull
+  @Size(max = 50)
+  private String username;
 
-  @Column(name = "created_at")
-  private LocalDateTime createdAt;
+  @NonNull
+  @Size(max = 120)
+  private String password;
 
   @OneToMany(mappedBy = "author", cascade = CascadeType.ALL)
   private List<Article> articles;
@@ -35,8 +53,11 @@ public class User {
   @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
   private List<Subscription> subscriptions;
 
-  @PrePersist
-  protected void onCreate() {
-    createdAt = LocalDateTime.now();
-  }
+  @CreationTimestamp
+  @Column(name = "created_at", updatable = false)
+  private LocalDateTime createdAt;
+
+  @UpdateTimestamp
+  @Column(name = "updated_at")
+  private LocalDateTime updatedAt;
 }

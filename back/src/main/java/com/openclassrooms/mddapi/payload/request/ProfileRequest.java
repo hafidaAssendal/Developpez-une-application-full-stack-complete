@@ -4,7 +4,7 @@ import lombok.Data;
 import javax.validation.constraints.*;
 
 @Data
-public class SignupRequest {
+public class ProfileRequest {
 
   @NotBlank(message = "Le nom d'utilisateur est obligatoire")
   @Size(max = 50)
@@ -15,9 +15,9 @@ public class SignupRequest {
   @Email(message = "Email invalide")
   private String email;
 
-  @NotBlank(message = "Le mot de passe est obligatoire")
+  // si l'utilisateur veut changer son mot de passe
   @Pattern(
-    regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!]).{8,}$",
+    regexp = "^$|^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!]).{8,}$",
     message = "8 caractères min, 1 majuscule, 1 minuscule, 1 chiffre, 1 caractère spécial"
   )
   private String password;
