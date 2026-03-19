@@ -52,15 +52,7 @@ public class UserService {
 
     SecurityContextHolder.getContext().setAuthentication(authentication);
     String jwt = jwtUtils.generateJwtToken(authentication);
-
-    UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-
-    return new JwtResponse(
-      jwt,
-      userDetails.getId(),
-      userDetails.getDisplayName(),
-      userDetails.getEmail()
-    );
+    return new JwtResponse( jwt );
   }
 
   // ===== REGISTER =====
