@@ -31,3 +31,13 @@ build/
 
 ### VS Code ###
 .vscode/
+# ===== ENVIRONNEMENT =====
+.env
+*.env
+
+# ===== BASE DE DONNÉES =====
+mdd_db/
+
+# ===== OS =====
+.DS_Store
+Thumbs.db
