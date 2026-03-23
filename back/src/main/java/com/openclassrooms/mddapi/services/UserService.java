@@ -5,13 +5,12 @@ import com.openclassrooms.mddapi.exception.BadRequestException;
 import com.openclassrooms.mddapi.exception.NotFoundException;
 import com.openclassrooms.mddapi.models.User;
 import com.openclassrooms.mddapi.payload.request.LoginRequest;
-import com.openclassrooms.mddapi.payload.request.ProfileRequest;
 import com.openclassrooms.mddapi.payload.request.SignupRequest;
+import com.openclassrooms.mddapi.payload.request.UpdateProfileRequest;
 import com.openclassrooms.mddapi.payload.response.JwtResponse;
 import com.openclassrooms.mddapi.payload.response.MessageResponse;
 import com.openclassrooms.mddapi.repository.UserRepository;
 import com.openclassrooms.mddapi.security.jwt.JwtUtils;
-import com.openclassrooms.mddapi.security.services.UserDetailsImpl;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -70,52 +69,44 @@ public class UserService {
       .email(request.getEmail())
       .password(passwordEncoder.encode(request.getPassword()))
       .build();
-
     userRepository.save(user);
-
     return new MessageResponse("Inscription réussie !");
   }
 
   // ===== GET PROFILE =====
-  public ProfileRequest getProfile(String email) {
-
-    User user = userRepository.findByEmail(email)
+  public User getProfile(String email) {
+    return userRepository.findByEmail(email)
       .orElseThrow(() -> new NotFoundException("Utilisateur introuvable"));
-
-    ProfileRequest profile = new ProfileRequest();
-    profile.setUsername(user.getUsername());
-    profile.setEmail(user.getEmail());
-    return profile;
   }
 
   // ===== UPDATE PROFILE =====
-  public MessageResponse updateProfile(String email, ProfileRequest request) {
-
+  public User updateProfile(String email, UpdateProfileRequest request) {
     User user = userRepository.findByEmail(email)
       .orElseThrow(() -> new NotFoundException("Utilisateur introuvable"));
 
-    // Vérifier que le nouvel email n'est pas déjà pris par quelqu'un d'autre
-    if (!user.getEmail().equals(request.getEmail())
-      && userRepository.existsByEmail(request.getEmail())) {
-      throw new BadRequestException("Email déjà utilisé");
+    // Modifier username seulement si fourni
+    if (request.getUsername() != null && !request.getUsername().isBlank()) {
+      if (!user.getUsername().equals(request.getUsername())
+        && userRepository.existsByUsername(request.getUsername())) {
+        throw new BadRequestException("Nom d'utilisateur déjà utilisé");
+      }
+      user.setUsername(request.getUsername());
     }
 
-    // Vérifier que le nouveau username n'est pas déjà pris par quelqu'un d'autre
-    if (!user.getUsername().equals(request.getUsername())
-      && userRepository.existsByUsername(request.getUsername())) {
-      throw new BadRequestException("Nom d'utilisateur déjà utilisé");
+    // Modifier email seulement si fourni
+    if (request.getEmail() != null && !request.getEmail().isBlank()) {
+      if (!user.getEmail().equals(request.getEmail())
+        && userRepository.existsByEmail(request.getEmail())) {
+        throw new BadRequestException("Email déjà utilisé");
+      }
+      user.setEmail(request.getEmail());
     }
 
-    user.setUsername(request.getUsername());
-    user.setEmail(request.getEmail());
-
-    // Changer le mot de passe seulement si fourni
-    if (request.getPassword() != null && !request.getPassword().isEmpty()) {
+    // Modifier password seulement si fourni
+    if (request.getPassword() != null && !request.getPassword().isBlank()) {
       user.setPassword(passwordEncoder.encode(request.getPassword()));
     }
 
-    userRepository.save(user);
-
-    return new MessageResponse("Profil mis à jour avec succès !");
+    return userRepository.save(user);
   }
 }

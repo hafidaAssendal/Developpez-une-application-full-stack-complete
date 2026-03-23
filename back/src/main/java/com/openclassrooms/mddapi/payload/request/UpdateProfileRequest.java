@@ -4,20 +4,20 @@ import lombok.Data;
 import javax.validation.constraints.*;
 
 @Data
-public class ProfileRequest {
+public class UpdateProfileRequest {
 
-  @NotBlank(message = "Le nom d'utilisateur est obligatoire")
+
   @Size(max = 50)
   private String username;
 
-  @NotBlank(message = "L'email est obligatoire")
-  @Size(max = 50)
+
   @Email(message = "Email invalide")
+  @Size(max = 50)
   private String email;
 
-  // si l'utilisateur veut changer son mot de passe
+
   @Pattern(
-    regexp = "^$|^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!]).{8,}$",
+    regexp = "^$|^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9]).{8,}$",
     message = "8 caractères min, 1 majuscule, 1 minuscule, 1 chiffre, 1 caractère spécial"
   )
   private String password;
