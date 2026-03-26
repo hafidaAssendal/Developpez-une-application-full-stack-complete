@@ -33,4 +33,19 @@ public class SubscriptionController {
     }
 
   }
+
+  // DELETE  /api/subscriptions/{id_theme}
+  @DeleteMapping("/{id_theme}")
+  public ResponseEntity<MessageResponse> unsubscribe(Authentication authentication,
+                                                     @PathVariable Long id_theme) {
+    try {
+      subscriptionService.unsubscribe(authentication.getName(), id_theme);
+      return ResponseEntity.ok(new MessageResponse("Désaboné"));
+    } catch (NotFoundException e) {
+      throw new NotFoundException(e.getMessage());
+    }catch (BadRequestException e){
+      throw new BadRequestException(e.getMessage());
+    }
+
+  }
 }

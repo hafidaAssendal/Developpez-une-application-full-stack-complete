@@ -9,6 +9,7 @@ import com.openclassrooms.mddapi.repository.SubscriptionRepository;
 import com.openclassrooms.mddapi.repository.ThemeRepository;
 import com.openclassrooms.mddapi.repository.UserRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class SubscriptionService {
@@ -35,5 +36,13 @@ public class SubscriptionService {
     subscription.setTheme(theme);
     subscriptionRepository.save(subscription);
 
+  }
+@Transactional
+  public void unsubscribe(String mail, Long id_theme) {
+    User user = userRepository.findByEmail(mail).orElseThrow(() -> new NotFoundException("utilisateur introuvable"));
+    if (!subscriptionRepository.existsByUserIdAndTheme(user.getId(), id_theme)) {
+      throw new BadRequestException("vous n'êtes pas abonné à ce thème");
+    }
+    subscriptionRepository.deleteByUserIdAndThemeId(user.getId(), id_theme);
   }
 }

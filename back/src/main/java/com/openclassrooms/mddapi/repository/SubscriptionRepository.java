@@ -2,9 +2,11 @@ package com.openclassrooms.mddapi.repository;
 
 import com.openclassrooms.mddapi.models.Subscription;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 public interface SubscriptionRepository extends JpaRepository<Subscription, Long> {
@@ -14,4 +16,8 @@ public interface SubscriptionRepository extends JpaRepository<Subscription, Long
   boolean existsByUserIdAndTheme(@Param("userId") Long userId,
                                  @Param("themeId") Long themeId);
 
+  @Modifying
+  @Transactional
+  @Query("DELETE FROM Subscription s WHERE s.user.id = :userId AND s.theme.id = :themeId")
+  void deleteByUserIdAndThemeId(@Param("userId") Long userId, @Param("themeId") Long themeId);
 }
