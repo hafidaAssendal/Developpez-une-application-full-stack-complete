@@ -23,12 +23,11 @@ public class Article {
   @Column(name = "created_at")
   private LocalDateTime createdAt;
 
-  // Auteur défini automatiquement (specs)
+
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "author_id", nullable = false)
   private User author;
 
-  // Thème associé à l'article
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "theme_id", nullable = false)
   private Theme theme;
