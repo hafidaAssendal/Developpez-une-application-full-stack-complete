@@ -26,7 +26,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     return UserDetailsImpl.builder()
       .id(user.getId())
-      .username(user.getEmail())      // Spring Security utilise email
+      .username(user.getEmail())      // car Spring Security utilise email
       .displayName(user.getUsername()) // username affiché MDD
       .email(user.getEmail())
       .password(user.getPassword())
