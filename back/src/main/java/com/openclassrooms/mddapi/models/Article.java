@@ -1,6 +1,10 @@
 package com.openclassrooms.mddapi.models;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -8,6 +12,9 @@ import java.util.List;
 @Data
 @Entity
 @Table(name = "articles")
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Article {
 
   @Id
@@ -22,7 +29,6 @@ public class Article {
 
   @Column(name = "created_at")
   private LocalDateTime createdAt;
-
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "author_id", nullable = false)
