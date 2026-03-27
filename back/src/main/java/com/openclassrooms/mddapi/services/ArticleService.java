@@ -2,15 +2,16 @@ package com.openclassrooms.mddapi.services;
 
 import com.openclassrooms.mddapi.exception.NotFoundException;
 import com.openclassrooms.mddapi.models.Article;
+import com.openclassrooms.mddapi.models.Comment;
 import com.openclassrooms.mddapi.models.Theme;
 import com.openclassrooms.mddapi.models.User;
 import com.openclassrooms.mddapi.payload.request.ArticleRequest;
-import com.openclassrooms.mddapi.payload.response.ArticleResponse;
+import com.openclassrooms.mddapi.payload.request.CommentRequest;
 import com.openclassrooms.mddapi.repository.ArticleRepository;
+import com.openclassrooms.mddapi.repository.CommentRepository;
 import com.openclassrooms.mddapi.repository.ThemeRepository;
 import com.openclassrooms.mddapi.repository.UserRepository;
 import lombok.Builder;
-import org.mapstruct.control.MappingControl;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,11 +22,13 @@ public class ArticleService {
   private final ArticleRepository articleRepository;
   private final UserRepository userRepository;
   private final ThemeRepository themeRepository;
+  private final CommentRepository commentRepository;
 
-  public ArticleService(ArticleRepository articleRepository, UserRepository userRepository, ThemeRepository themeRepository) {
+  public ArticleService(ArticleRepository articleRepository, UserRepository userRepository, ThemeRepository themeRepository, CommentRepository commentRepository) {
     this.articleRepository = articleRepository;
     this.userRepository = userRepository;
     this.themeRepository = themeRepository;
+    this.commentRepository = commentRepository;
   }
 
   public List<Article> getAllArticles(String mail) {
@@ -48,5 +51,23 @@ public class ArticleService {
       .theme(theme)
       .build();
     return articleRepository.save(article);
+  }
+
+  public Comment createComment(Long idArticle, String mail, CommentRequest commentRequest) {
+    User user = userRepository.findByEmail(mail).orElseThrow(() -> new NotFoundException("utilisateur introuvable"));
+    Article article = articleRepository.findById(idArticle).orElseThrow(() -> new NotFoundException("Article introuvable"));
+
+    Comment comment = Comment.builder().content(commentRequest.getContent())
+      .article(article)
+      .author(user)
+      .build();
+    return commentRepository.save(comment);
+  }
+
+  public List<Comment> getAllComments(Long articleId) {
+    if (!articleRepository.existsById(articleId)) {
+      throw new NotFoundException("Article introuvable");
+    }
+    return commentRepository.findByArticleIdOrderByCreatedAtAsc(articleId);
   }
 }
