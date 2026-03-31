@@ -39,19 +39,16 @@ public class UserService {
   // ===== LOGIN =====
   public JwtResponse login(LoginRequest request) {
 
-    // Cherche l'utilisateur par email OU username
     User user = userRepository
       .findByEmailOrUsername(request.getIdentifier(), request.getIdentifier())
       .orElseThrow(() -> new NotFoundException("Identifiants incorrects"));
 
-    // Authentification Spring Security avec l'email
     Authentication authentication = authenticationManager.authenticate(
       new UsernamePasswordAuthenticationToken(user.getEmail(), request.getPassword())
     );
-
     SecurityContextHolder.getContext().setAuthentication(authentication);
     String jwt = jwtUtils.generateJwtToken(authentication);
-    return new JwtResponse( jwt );
+    return new JwtResponse(jwt);
   }
 
   // ===== REGISTER =====
@@ -84,7 +81,6 @@ public class UserService {
     User user = userRepository.findByEmail(email)
       .orElseThrow(() -> new NotFoundException("Utilisateur introuvable"));
 
-    // Modifier username seulement si fourni
     if (request.getUsername() != null && !request.getUsername().isBlank()) {
       if (!user.getUsername().equals(request.getUsername())
         && userRepository.existsByUsername(request.getUsername())) {
@@ -93,7 +89,6 @@ public class UserService {
       user.setUsername(request.getUsername());
     }
 
-    // Modifier email seulement si fourni
     if (request.getEmail() != null && !request.getEmail().isBlank()) {
       if (!user.getEmail().equals(request.getEmail())
         && userRepository.existsByEmail(request.getEmail())) {
@@ -102,7 +97,6 @@ public class UserService {
       user.setEmail(request.getEmail());
     }
 
-    // Modifier password seulement si fourni
     if (request.getPassword() != null && !request.getPassword().isBlank()) {
       user.setPassword(passwordEncoder.encode(request.getPassword()));
     }

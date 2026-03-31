@@ -17,7 +17,9 @@ public class ThemeService {
   private final SubscriptionRepository subscriptionRepository;
   private final UserRepository userRepository;
 
-  public ThemeService(ThemeRepository themeRepository, SubscriptionRepository subscriptionRepository, UserRepository userRepository) {
+  public ThemeService(ThemeRepository themeRepository,
+                      SubscriptionRepository subscriptionRepository,
+                      UserRepository userRepository) {
     this.themeRepository = themeRepository;
     this.subscriptionRepository = subscriptionRepository;
     this.userRepository = userRepository;
@@ -31,6 +33,5 @@ public class ThemeService {
 
     User user = userRepository.findByEmail(mail).orElseThrow(()-> new NotFoundException("Utilsateur Introuvable"));
     return subscriptionRepository.existsByUserIdAndTheme(user.getId(), theme_id);
-
   }
 }

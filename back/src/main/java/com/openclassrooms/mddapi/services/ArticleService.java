@@ -65,9 +65,10 @@ public class ArticleService {
   }
 
   public List<Comment> getAllComments(Long articleId) {
-    if (!articleRepository.existsById(articleId)) {
-      throw new NotFoundException("Article introuvable");
+    if (articleRepository.existsById(articleId)) {
+      return commentRepository.findByArticleIdOrderByCreatedAtAsc(articleId);
     }
-    return commentRepository.findByArticleIdOrderByCreatedAtAsc(articleId);
+    throw new NotFoundException("Article introuvable");
+
   }
 }

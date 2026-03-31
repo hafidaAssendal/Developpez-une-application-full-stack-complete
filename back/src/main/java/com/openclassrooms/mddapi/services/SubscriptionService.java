@@ -18,7 +18,8 @@ public class SubscriptionService {
   private final ThemeRepository themeRepository;
 
   public SubscriptionService(SubscriptionRepository subscriptionRepository,
-                             UserRepository userRepository, ThemeRepository themeRepository) {
+                             UserRepository userRepository,
+                             ThemeRepository themeRepository) {
     this.subscriptionRepository = subscriptionRepository;
     this.userRepository = userRepository;
     this.themeRepository = themeRepository;
@@ -37,12 +38,13 @@ public class SubscriptionService {
     subscriptionRepository.save(subscription);
 
   }
-@Transactional
+
+  @Transactional
   public void unsubscribe(String mail, Long id_theme) {
     User user = userRepository.findByEmail(mail).orElseThrow(() -> new NotFoundException("utilisateur introuvable"));
-    if (!subscriptionRepository.existsByUserIdAndTheme(user.getId(), id_theme)) {
-      throw new BadRequestException("vous n'êtes pas abonné à ce thème");
-    }
-    subscriptionRepository.deleteByUserIdAndThemeId(user.getId(), id_theme);
+    if (subscriptionRepository.existsByUserIdAndTheme(user.getId(), id_theme)) {
+      subscriptionRepository.deleteByUserIdAndThemeId(user.getId(), id_theme);
+      }
+    throw new BadRequestException("vous n'êtes pas abonné à ce thème");
   }
 }
