@@ -4,31 +4,29 @@ import lombok.*;
 import lombok.experimental.Accessors;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.time.LocalDateTime;
 import java.util.List;
 
-
+@Accessors(chain = true)
+@Getter
+@Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@EqualsAndHashCode(of = {"id"})
+@ToString(exclude = {"articles", "comments", "subscriptions"})
 @Entity
 @Table(name = "users", uniqueConstraints = {
   @UniqueConstraint(columnNames = "email"),
   @UniqueConstraint(columnNames = "username")
 })
-@Data
-@Accessors(chain = true)
-@EntityListeners(AuditingEntityListener.class)
-@EqualsAndHashCode(of = {"id"})
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
-@ToString(exclude = {"articles", "comments", "subscriptions"})
 public class User {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Setter(AccessLevel.NONE)
   private Long id;
 
   @NonNull

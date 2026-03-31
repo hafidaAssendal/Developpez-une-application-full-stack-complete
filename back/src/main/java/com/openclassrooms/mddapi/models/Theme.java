@@ -1,16 +1,23 @@
 package com.openclassrooms.mddapi.models;
 
-import lombok.Data;
+import lombok.*;
 import javax.persistence.*;
 import java.util.List;
 
-@Data
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@EqualsAndHashCode(of = {"id"})
+@ToString(exclude = {"articles","subscriptions"})
+@Builder
 @Entity
 @Table(name = "themes")
 public class Theme {
-
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Setter(AccessLevel.NONE)
   private Long id;
 
   @Column(nullable = false, unique = true)

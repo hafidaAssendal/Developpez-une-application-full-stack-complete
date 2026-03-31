@@ -1,21 +1,28 @@
 package com.openclassrooms.mddapi.models;
 
-import lombok.Data;
+import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
-@Data
+@Getter
+@Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString(exclude = {"user","theme"})
+@EqualsAndHashCode(of={"id"})
 @Entity
 @Table(name = "subscriptions",
-  uniqueConstraints = {
-    // Un user ne peut s'abonner qu'une fois au même thème
-    @UniqueConstraint(columnNames = {"user_id", "theme_id"})
+  uniqueConstraints = { @UniqueConstraint(columnNames = {"user_id", "theme_id"})
   }
 )
 public class Subscription {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Setter(AccessLevel.NONE)
   private Long id;
 
   @ManyToOne(fetch = FetchType.LAZY)
@@ -26,11 +33,8 @@ public class Subscription {
   @JoinColumn(name = "theme_id", nullable = false)
   private Theme theme;
 
-  @Column(name = "subscribed_at")
+  @CreationTimestamp
+  @Column(name = "subscribed_at",updatable = false)
   private LocalDateTime subscribedAt;
 
-  @PrePersist
-  protected void onCreate() {
-    subscribedAt = LocalDateTime.now();
-  }
 }
