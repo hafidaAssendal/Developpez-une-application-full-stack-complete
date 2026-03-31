@@ -29,12 +29,13 @@ public class SubscriptionService {
     User user = userRepository.findByEmail(mail).orElseThrow(() -> new NotFoundException("Utilisateur introuvable"));
     Theme theme = themeRepository.findById(id_theme).orElseThrow(() -> new NotFoundException("Theme Introuvable"));
     if (subscriptionRepository.existsByUserIdAndTheme(user.getId(), id_theme)) {
-      throw new BadRequestException("déja abonné à ce thème ");
+      throw new BadRequestException("déja abonné à ce thème !");
 
     }
-    Subscription subscription = new Subscription();
-    subscription.setUser(user);
-    subscription.setTheme(theme);
+    Subscription subscription = Subscription.builder()
+      .user(user)
+      .theme(theme).build();
+
     subscriptionRepository.save(subscription);
 
   }
@@ -44,7 +45,8 @@ public class SubscriptionService {
     User user = userRepository.findByEmail(mail).orElseThrow(() -> new NotFoundException("utilisateur introuvable"));
     if (subscriptionRepository.existsByUserIdAndTheme(user.getId(), id_theme)) {
       subscriptionRepository.deleteByUserIdAndThemeId(user.getId(), id_theme);
-      }
-    throw new BadRequestException("vous n'êtes pas abonné à ce thème");
+    }else {
+      throw new BadRequestException("vous n'êtes pas abonné à ce thème");
+    }
   }
 }
