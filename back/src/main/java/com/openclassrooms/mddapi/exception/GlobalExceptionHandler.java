@@ -31,7 +31,7 @@ public class GlobalExceptionHandler {
       .status(HttpStatus.UNAUTHORIZED)
       .body(new MessageResponse(e.getMessage()));
   }
-
+ // une régle de validation qui n'est pas respectée @Valid
   @ExceptionHandler(MethodArgumentNotValidException.class)
   public ResponseEntity<MessageResponse> handleValidation(MethodArgumentNotValidException e) {
     String message = e.getBindingResult()

@@ -15,11 +15,11 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@CrossOrigin(origins = "*",maxAge = 3600)
+@CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/api/themes")
 public class ThemeController {
-  private final ThemeService  themeService;
+  private final ThemeService themeService;
   private final ThemeMapper themeMapper;
 
   public ThemeController(ThemeService themeService, ThemeMapper themeMapper) {
@@ -29,23 +29,17 @@ public class ThemeController {
 
   // GET /api/themes
   @GetMapping
-  public ResponseEntity<List<ThemeResponse>> getThemes( Authentication authentication){
-    try {
-      List<Theme> themes  =themeService.findAllThemes();
-      List<ThemeResponse> ThemesResponses= themes.stream()
-                                                  .map(theme ->{
-                                                    ThemeResponse dto = themeMapper.toDto(theme);
-                                                    dto.setSubscribed(themeService.isSubscribed(authentication.getName(),theme.getId()));
-                                                    return  dto;
-                                                  })
-                                                  .collect(Collectors.toList());
-      return ResponseEntity.ok(ThemesResponses);
-    } catch (NotFoundException e) {
-      throw new NotFoundException(e.getMessage());
-    }
-
+  public List<ThemeResponse> getThemes(Authentication authentication) {
+    List<Theme> themes = themeService.findAllThemes();
+    List<ThemeResponse> ThemesResponses = themes.stream()
+      .map(theme -> {
+        ThemeResponse dto = themeMapper.toDto(theme);
+        dto.setSubscribed(themeService.isSubscribed(authentication.getName(), theme.getId()));
+        return dto;
+      })
+      .collect(Collectors.toList());
+    return ThemesResponses;
   }
-
 
 
 }
