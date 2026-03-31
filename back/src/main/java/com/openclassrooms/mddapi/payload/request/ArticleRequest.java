@@ -11,8 +11,6 @@ import javax.validation.constraints.Size;
 
 
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
 public class ArticleRequest {
 
   @NotBlank(message = "Le titre est obligatoire")

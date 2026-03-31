@@ -6,15 +6,12 @@ import javax.validation.constraints.*;
 @Data
 public class UpdateProfileRequest {
 
-
   @Size(max = 50)
   private String username;
-
 
   @Email(message = "Email invalide")
   @Size(max = 50)
   private String email;
-
 
   @Pattern(
     regexp = "^$|^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9]).{8,}$",
