@@ -39,8 +39,8 @@ public class ArticleController {
 
   // GET /api/articles/{id_article}
   @GetMapping("/{id_article}")
-  public ArticleResponse detailArticle(@PathVariable Long id_article) {
-    Article article = articleService.getArticleById(id_article);
+  public ArticleResponse detailArticle(Authentication authentication ,@PathVariable Long id_article) {
+    Article article = articleService.getArticleById(authentication.getName(),id_article);
     return articleMapper.toDto(article);
 
   }
