@@ -12,5 +12,4 @@ import org.springframework.stereotype.Component;
 public interface ThemeMapper extends EntityMapper<ThemeResponse, Theme> {
   @Mapping(target = "subscribed", ignore = true)
   ThemeResponse toDto(Theme theme);
-
 }
