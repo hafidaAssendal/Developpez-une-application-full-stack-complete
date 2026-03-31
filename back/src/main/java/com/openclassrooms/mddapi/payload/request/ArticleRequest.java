@@ -10,7 +10,7 @@ import javax.validation.constraints.Size;
 public class ArticleRequest {
 
   @NotBlank(message = "Le titre est obligatoire")
-  @Size(max = 100)
+  @Size(max = 255)
   private String title;
   @NotBlank(message = "le contenue est obligatoire")
   private String content;
