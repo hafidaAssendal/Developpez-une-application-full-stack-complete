@@ -1,7 +1,74 @@
-.center {
-  height: 100vh;
+
+// .center {
+//   height: 100vh;
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+//   flex-direction: column;
+//   gap: 24px;
+//   padding: 16px;
+//   text-align: center;
+//   max-width: 400px;
+//   margin: auto;
+
+// }
+
+.home-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background-color: #ffffff;
+  padding: 2rem;
+  gap: 3rem;
+}
+
+.logo-wrapper {
   display: flex;
   justify-content: center;
-  align-items: center;
-  flex-direction: column;
+
+  .logo-img {
+    width: auto;
+    height: auto;
+
+    @media (max-width: 600px) {
+      width: 130px;
+    }
+  }
+}
+
+.buttons-wrapper {
+  display: flex;
+  flex-direction: row;
+  gap: 1.5rem;
+  justify-content: center;
+  flex-wrap: wrap;
+
+  @media (max-width: 480px) {
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    width: 100%;
+  }
+
+  // Override Angular Material styles
+  button[mat-stroked-button] {
+    min-width: 160px;
+    border-radius: 6px;
+    border-color: #1a1a1a;
+    color: #1a1a1a;
+    font-size: 1rem;
+    padding: 0.6rem 2rem;
+    height: auto;
+
+    @media (max-width: 480px) {
+      width: 100%;
+      max-width: 280px;
+    }
+
+    &:hover {
+      background-color: #f0f0f0;
+    }
+  }
 }
