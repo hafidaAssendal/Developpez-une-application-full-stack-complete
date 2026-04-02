@@ -17,9 +17,9 @@ export const routes: Routes = [
   //   loadComponent: () => import('./pages/auth/components/register/register.component')
   //     .then(m => m.RegisterComponent)
   // },
-  // {
-  //   path: '**',
-  //   loadComponent: () => import('./shared/components/not-found/not-found.component')
-  //     .then(m => m.NotFoundComponent)
-  // }
+  {
+    path: '**',
+    loadComponent: () => import('./shared/not-found/not-found.component')
+      .then(m => m.NotFoundComponent)
+  }
 ];
