@@ -4,14 +4,11 @@ import lombok.*;
 import javax.persistence.*;
 import java.util.List;
 
-
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 @EqualsAndHashCode(of = {"id"})
 @ToString(exclude = {"articles","subscriptions"})
-@Builder
 @Entity
 @Table(name = "themes")
 public class Theme {
@@ -31,4 +28,15 @@ public class Theme {
 
   @OneToMany(mappedBy = "theme", cascade = CascadeType.ALL)
   private List<Subscription> subscriptions;
+
+  @Builder
+  public Theme(String title,
+               List<Article> articles,
+               String description,
+               List<Subscription> subscriptions) {
+    this.title = title;
+    this.articles = articles;
+    this.description = description;
+    this.subscriptions = subscriptions;
+  }
 }

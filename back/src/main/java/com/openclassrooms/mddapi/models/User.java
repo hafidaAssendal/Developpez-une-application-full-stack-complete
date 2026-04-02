@@ -12,9 +12,7 @@ import java.util.List;
 @Accessors(chain = true)
 @Getter
 @Setter
-@Builder
 @NoArgsConstructor
-@AllArgsConstructor
 @EqualsAndHashCode(of = {"id"})
 @ToString(exclude = {"articles", "comments", "subscriptions"})
 @Entity
@@ -58,4 +56,19 @@ public class User {
   @UpdateTimestamp
   @Column(name = "updated_at")
   private LocalDateTime updatedAt;
+
+  @Builder
+  public User(String email,
+              String username,
+              String password,
+              List<Article> articles,
+              List<Comment> comments,
+              List<Subscription> subscriptions) {
+    this.email = email;
+    this.username = username;
+    this.password = password;
+    this.articles = articles;
+    this.comments = comments;
+    this.subscriptions = subscriptions;
+  }
 }

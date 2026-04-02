@@ -8,9 +8,7 @@ import java.time.LocalDateTime;
 
 @Getter
 @Setter
-@Builder
 @NoArgsConstructor
-@AllArgsConstructor
 @ToString(exclude = {"article","author"})
 @EqualsAndHashCode(of = {"id"})
 @Entity
@@ -37,4 +35,12 @@ public class Comment {
   @JoinColumn(name = "article_id", nullable = false)
   private Article article;
 
+  @Builder
+  public Comment(String content,
+                 User author,
+                 Article article) {
+    this.content = content;
+    this.author = author;
+    this.article = article;
+  }
 }

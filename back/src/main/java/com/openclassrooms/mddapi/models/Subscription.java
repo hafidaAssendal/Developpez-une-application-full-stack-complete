@@ -8,14 +8,12 @@ import java.time.LocalDateTime;
 
 @Getter
 @Setter
-@Builder
 @NoArgsConstructor
-@AllArgsConstructor
-@ToString(exclude = {"user","theme"})
-@EqualsAndHashCode(of={"id"})
+@ToString(exclude = {"user", "theme"})
+@EqualsAndHashCode(of = {"id"})
 @Entity
 @Table(name = "subscriptions",
-  uniqueConstraints = { @UniqueConstraint(columnNames = {"user_id", "theme_id"})
+  uniqueConstraints = {@UniqueConstraint(columnNames = {"user_id", "theme_id"})
   }
 )
 public class Subscription {
@@ -34,7 +32,12 @@ public class Subscription {
   private Theme theme;
 
   @CreationTimestamp
-  @Column(name = "subscribed_at",updatable = false)
+  @Column(name = "subscribed_at", updatable = false)
   private LocalDateTime subscribedAt;
 
+  @Builder
+  public Subscription(Theme theme, User user) {
+    this.theme = theme;
+    this.user = user;
+  }
 }

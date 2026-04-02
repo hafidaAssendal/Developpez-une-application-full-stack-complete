@@ -33,8 +33,9 @@ public class SubscriptionService {
 
     }
     Subscription subscription = Subscription.builder()
+      .theme(theme)
       .user(user)
-      .theme(theme).build();
+      .build();
 
     subscriptionRepository.save(subscription);
 
@@ -45,7 +46,7 @@ public class SubscriptionService {
     User user = userRepository.findByEmail(mail).orElseThrow(() -> new NotFoundException("utilisateur introuvable"));
     if (subscriptionRepository.existsByUserIdAndTheme(user.getId(), id_theme)) {
       subscriptionRepository.deleteByUserIdAndThemeId(user.getId(), id_theme);
-    }else {
+    } else {
       throw new BadRequestException("vous n'êtes pas abonné à ce thème");
     }
   }

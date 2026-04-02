@@ -10,9 +10,7 @@ import java.util.List;
 
 @Getter
 @Setter
-@Builder
 @NoArgsConstructor
-@AllArgsConstructor
 @ToString(exclude = {"author", "theme", "comments"})
 @EqualsAndHashCode(of = {"id"})
 @Entity
@@ -45,5 +43,18 @@ public class Article {
 
   @OneToMany(mappedBy = "article", cascade = CascadeType.ALL)
   private List<Comment> comments;
+
+  @Builder
+  public Article(String title,
+                 String content,
+                 User author,
+                 Theme theme,
+                 List<Comment> comments) {
+    this.title = title;
+    this.content = content;
+    this.author = author;
+    this.theme = theme;
+    this.comments = comments;
+  }
 
 }
