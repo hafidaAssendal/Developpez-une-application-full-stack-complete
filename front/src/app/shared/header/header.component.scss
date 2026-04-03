@@ -1,0 +1,13 @@
+.header {
+  padding: var(--spacing-sm) var(--spacing-lg);
+  border-bottom: 1px solid #e0e0e0;
+
+  .logo-img {
+    width: 80px;
+    height: auto;
+
+    @media (max-width: 480px) {
+      width: 60px;
+    }
+  }
+}
