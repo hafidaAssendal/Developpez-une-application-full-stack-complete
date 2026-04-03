@@ -4,10 +4,10 @@
   </div>
 
   <div class="buttons-wrapper">
-    <button mat-stroked-button routerLink="/login" class="btn-login">
+    <button mat-stroked-button (click)="login()" class="btn-login">
       Se connecter
     </button>
-    <button mat-stroked-button routerLink="/register" class="btn-register">
+    <button mat-stroked-button (click)="register()" class="btn-register">
       S'inscrire
     </button>
   </div>

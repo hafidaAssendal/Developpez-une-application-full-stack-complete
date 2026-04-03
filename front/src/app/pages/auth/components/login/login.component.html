@@ -1,1 +1,39 @@
-<p>login works!</p>
+<app-header [showNav]="false" />
+
+<div class="login-wrapper">
+    <app-back-button />
+
+    <div class="login-container">
+        <h2>Se connecter</h2>
+
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+
+            <mat-form-field appearance="outline" class="full-width">
+                <mat-label>E-mail ou nom d'utilisateur</mat-label>
+                <input matInput formControlName="identifier" />
+                @if (loginForm.get('identifier')?.hasError('required')
+                && loginForm.get('identifier')?.touched) {
+                <mat-error>L'identifiant est obligatoire</mat-error>
+                }
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Mot de passe</mat-label>
+                <input matInput type="password" formControlName="password" />
+                @if (loginForm.get('password')?.hasError('required')
+                && loginForm.get('password')?.touched) {
+                <mat-error>Le mot de passe est obligatoire</mat-error>
+                }
+            </mat-form-field>
+
+            @if (errorMessage()) {
+            <p class="error-message">{{ errorMessage() }}</p>
+            }
+
+            <button mat-raised-button color="primary" type="submit" class="full-width" [disabled]="loginForm.invalid">
+                Se connecter
+            </button>
+
+        </form>
+    </div>
+</div>

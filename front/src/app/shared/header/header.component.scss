@@ -1,13 +1,27 @@
 .header {
-  padding: var(--spacing-sm) var(--spacing-lg);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 24px;
   border-bottom: 1px solid #e0e0e0;
 
-  .logo-img {
-    width: 80px;
-    height: auto;
+  &-logo img {
+    height: 40px;
+  }
 
-    @media (max-width: 480px) {
-      width: 60px;
+  &-nav {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+
+    a {
+      text-decoration: none;
+      color: #333;
+      font-weight: 500;
+
+      &:hover {
+        color: #7f77dd;
+      }
     }
   }
 }

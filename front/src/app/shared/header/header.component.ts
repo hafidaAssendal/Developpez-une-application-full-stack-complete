@@ -1,12 +1,13 @@
-import { Component } from '@angular/core';
-import { Router } from '@angular/router';
-import { MatIconModule } from '@angular/material/icon';
+import { Component, Input } from '@angular/core';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [MatIconModule],
+  imports: [RouterLink],
   templateUrl: './header.component.html',
-  styleUrl: './header.component.scss'
+  styleUrls: ['./header.component.scss']
 })
-export class HeaderComponent {}
+export class HeaderComponent {
+  @Input() showNav: boolean = false;
+}

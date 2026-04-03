@@ -1,1 +1,60 @@
-<p>register works!</p>
+<app-header [showNav]="false"/>
+
+<div class="register-wrapper">
+  <app-back-button/>
+
+  <div class="register-container">
+    <h2>Inscription</h2>
+
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Nom d'utilisateur</mat-label>
+        <input matInput formControlName="username"/>
+        @if (registerForm.get('username')?.hasError('required')
+          && registerForm.get('username')?.touched) {
+          <mat-error>Le nom d'utilisateur est obligatoire</mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Adresse e-mail</mat-label>
+        <input matInput formControlName="email"/>
+        @if (registerForm.get('email')?.hasError('email')
+          && registerForm.get('email')?.touched) {
+          <mat-error>Email invalide</mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Mot de passe</mat-label>
+        <input matInput type="password" formControlName="password"/>
+        @if (registerForm.get('password')?.hasError('pattern')
+          && registerForm.get('password')?.touched) {
+          <mat-error>
+            8 caractères min, 1 majuscule, 1 minuscule,
+            1 chiffre, 1 caractère spécial
+          </mat-error>
+        }
+      </mat-form-field>
+
+      @if (errorMessage()) {
+        <p class="error-message">{{ errorMessage() }}</p>
+      }
+
+      @if (successMessage()) {
+        <p class="success-message">{{ successMessage() }}</p>
+      }
+
+      <button
+        mat-raised-button
+        color="primary"
+        type="submit"
+        class="full-width"
+        [disabled]="registerForm.invalid">
+        S'inscrire
+      </button>
+
+    </form>
+  </div>
+</div>

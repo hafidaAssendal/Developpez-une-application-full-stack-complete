@@ -1,20 +1,20 @@
-import { Component, Input } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component } from '@angular/core';
+import { Location } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-back-button',
   standalone: true,
-  imports: [MatIconModule],
+  imports: [MatIconModule, MatButtonModule],
   templateUrl: './back-button.component.html',
-  styleUrl: './back-button.component.scss'
+  styleUrls: ['./back-button.component.scss']
 })
 export class BackButtonComponent {
-  @Input() route: string = '/'; // route par défaut
 
-  constructor(private router: Router) {}
+  constructor(private location: Location) {}
 
   goBack(): void {
-    this.router.navigate([this.route]);
+    this.location.back();
   }
 }

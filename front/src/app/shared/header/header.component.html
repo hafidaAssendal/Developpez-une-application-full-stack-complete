@@ -1,3 +1,15 @@
 <header class="header">
-  <img src="/assets/logo_p6.png"  alt="MDD Logo" class="logo-img" />
+  <div class="header-logo">
+    <img src="/assets/logo_p6.png"  alt="MDD Logo"/>
+  </div>
+
+  @if (showNav) {
+    <nav class="header-nav">
+      <a routerLink="/articles">Articles</a>
+      <a routerLink="/themes">Thèmes</a>
+      <a routerLink="/profile">
+        <img src="assets/profile-icon.svg" alt="Profil"/>
+      </a>
+    </nav>
+  }
 </header>
