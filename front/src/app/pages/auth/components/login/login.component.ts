@@ -4,11 +4,10 @@ import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angula
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
-//import { AuthService } from '../../services/auth.service';
-//import { LoginRequest } from '../../interfaces/login-request.interface';
 import { HeaderComponent } from '../../../../shared/header/header.component';
 import { BackButtonComponent } from '../../../../shared/back-button/back-button.component';
 import { LoginRequest } from '../../interfaces/login-request.inerface';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -32,7 +31,7 @@ export class LoginComponent {
 
   constructor(
     private fb: FormBuilder,
-    //private authService: AuthService,
+    private authService: AuthService,
     private router: Router
   ) {
     this.loginForm = this.fb.group({
@@ -46,9 +45,9 @@ export class LoginComponent {
 
     const request: LoginRequest = this.loginForm.value;
 
-    // this.authService.login(request).subscribe({
-    //   next: () => this.router.navigate(['/articles']),
-    //   error: () => this.errorMessage.set('Identifiants incorrects')
-    // });
+    this.authService.login(request).subscribe({
+      next: () => this.router.navigate(['/articles']),
+      error: () => this.errorMessage.set('Identifiants incorrects')
+    });
   }
 }

@@ -4,10 +4,10 @@ import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angula
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
-//import { AuthService } from '../../services/auth.service';
 import { SignupRequest } from '../../interfaces/signup-request.interface';
 import { HeaderComponent } from 'src/app/shared/header/header.component';
 import { BackButtonComponent } from 'src/app/shared/back-button/back-button.component';
+import { AuthService } from '../../services/auth.service';
 
 
 @Component({
@@ -36,15 +36,15 @@ export class RegisterComponent {
 
   constructor(
     private fb: FormBuilder,
-   // private authService: AuthService,
+    private authService: AuthService,
     private router: Router
   ) {
     this.registerForm = this.fb.group({
       username: ['', [Validators.required]],
       email: ['', [Validators.required, Validators.email]],
       password: ['', [
-        Validators.required,
-        Validators.pattern(this.PASSWORD_PATTERN)
+                      Validators.required,
+                      Validators.pattern(this.PASSWORD_PATTERN)
       ]]
     });
   }
@@ -54,14 +54,14 @@ export class RegisterComponent {
 
     const request: SignupRequest = this.registerForm.value;
 
-    // this.authService.register(request).subscribe({
-    //   next: () => {
-    //     this.successMessage.set('Inscription réussie !');
-    //     setTimeout(() => this.router.navigate(['/login']), 2000);
-    //   },
-    //   error: (err) => {
-    //     this.errorMessage.set(err.error?.message || 'Erreur lors de l\'inscription');
-    //   }
-    // });
+    this.authService.register(request).subscribe({
+      next: () => {
+        this.successMessage.set('Inscription réussie !');
+        setTimeout(() => this.router.navigate(['/login']), 2000);
+      },
+      error: (err) => {
+        this.errorMessage.set(err.error?.message || 'Erreur lors de l\'inscription');
+      }
+    });
   }
 }
