@@ -1,15 +1,28 @@
-<header class="header">
+<!-- header.component.html -->
+<mat-toolbar class="header">
   <div class="header-logo">
-    <img src="/assets/logo_p6.png"  alt="MDD Logo"/>
+    <img src="/assets/logo_p6.png" alt="MDD Logo"/>
   </div>
 
   @if (showNav) {
-    <nav class="header-nav">
-      <a routerLink="/articles">Articles</a>
-      <a routerLink="/themes">Thèmes</a>
-      <a routerLink="/profile">
+    <nav class="desktop-nav">
+      <button mat-button class="btn-logout" (click)="logout()">Se déconnecter</button>
+      <a mat-button routerLink="/articles">Articles</a>
+      <a mat-button routerLink="/themes">Thèmes</a>
+      <a routerLink="/profile" class="profile-link">
         <img src="assets/profile-icon.svg" alt="Profil"/>
       </a>
     </nav>
+
+    <!-- mobile -->
+    <button mat-icon-button class="burger-btn" (click)="menuOpen = !menuOpen">
+      <mat-icon>{{ menuOpen ? 'close' : 'menu' }}</mat-icon>
+    </button>
+
+    <div class="mobile-menu" [class.open]="menuOpen">
+      <button mat-button class="btn-logout" (click)="logout()">Se déconnecter</button>
+      <a routerLink="/articles" (click)="menuOpen = false">Articles</a>
+      <a routerLink="/themes" (click)="menuOpen = false">Thèmes</a>
+    </div>
   }
-</header>
+</mat-toolbar>
