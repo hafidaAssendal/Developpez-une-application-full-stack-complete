@@ -25,7 +25,7 @@ export const routes: Routes = [
   {
     path: 'articles',
     canActivate: [authGuard],
-    loadComponent: () => import('./pages/features/articles/articles.component')
+    loadComponent: () => import('./pages/features/articles/list/articles.component')
       .then(m => m.ArticlesComponent)
   },
   {

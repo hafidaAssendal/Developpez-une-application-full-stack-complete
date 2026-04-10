@@ -1,0 +1,62 @@
+ <app-header [showNav]="true"/>
+
+<div class="feed-container">
+
+  <!-- Toolbar -->
+  <div class="feed-toolbar">
+    <button mat-raised-button color="primary" (click)="goToCreate()">
+      Créer un article
+    </button>
+    <button mat-stroked-button (click)="toggleSort()">
+      Trier par
+      @if (sortAsc()) {
+        ↑ ancien
+      } @else {
+        ↓ récent
+      }
+    </button>
+  </div>
+
+  <!-- Loading -->
+  @if (isLoading()) {
+    <div class="loading">
+      <mat-spinner diameter="48"/>
+    </div>
+  }
+
+  <!-- Erreur -->
+  @if (errorMessage()) {
+    <p class="error">{{ errorMessage() }}</p>
+  }
+
+  <!-- Articles -->
+  @if (!isLoading()) {
+    @if (sortedArticles().length > 0) {
+      <div class="articles-grid">
+        @for (article of sortedArticles(); track article.id) {
+          <div class="article-card" (click)="goToArticle(article.id)">
+            <h2 class="article-title">{{ article.title }}</h2>
+            <div class="article-meta">
+              <span>{{ article.createdAt | date:'dd/MM/yyyy' }}</span>
+              <span>{{ article.authorUsername }}</span>
+            </div>
+            <p class="article-excerpt">
+              {{ article.content | slice:0:150 }}...
+            </p>
+          </div>
+        }
+      </div>
+    } @else {
+      <div class="empty-state">
+        <p>Aucun article pour le moment.</p>
+        <p>Abonnez-vous à des thèmes pour voir les articles ici.</p>
+        <button mat-raised-button color="primary" (click)="goToThemes()">
+          Voir les thèmes
+        </button>
+      </div>
+    }
+  }
+
+</div>
+
+

@@ -48,8 +48,7 @@ export class AuthService {
   private loadCurrentUser(): Observable<User> {
     return this.httpClient.get<User>(`${environment.apiUrl}/user/me`).pipe(
       tap(user => {
-        //  console.log('[AuthService] User chargé :', user);
-        this.currentUser.set(user);
+          this.currentUser.set(user);
 
       }));
   }
