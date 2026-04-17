@@ -1,0 +1,29 @@
+<app-header [showNav]="true" />
+<div class="themes-container">
+    <div class="themes-grid">
+    @for (theme of listThemes(); track theme.id) {
+    <mat-card class="theme-card" appearance="outlined">
+        <mat-card-header>
+            <mat-card-title>{{theme.title}}</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <p>{{theme.description}}</p>
+        </mat-card-content>
+        <mat-card-footer class="theme-card-footer">
+            <mat-chip-set aria-label="Chihuahua traits">
+                @if(theme.subscribed){
+                <button mat-raised-button color="primary" disabled >
+                    Déja abonnée
+                </button>
+               
+                }@else{
+                <button mat-raised-button color="primary" (click)="subscribe(theme.id)" >
+                    S'abonner
+                </button>
+                }
+            </mat-chip-set>
+        </mat-card-footer>
+    </mat-card>
+    }
+</div>
+</div>
