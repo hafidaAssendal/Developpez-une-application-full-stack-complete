@@ -1,4 +1,4 @@
-import { Component,OnInit,signal,computed,inject,DestroyRef } from '@angular/core';
+import { Component, OnInit, signal, computed, inject, DestroyRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { DatePipe, SlicePipe } from '@angular/common';
@@ -30,6 +30,7 @@ export class ArticlesComponent implements OnInit {
   errorMessage = signal<string>('');
   sortAsc = signal<boolean>(false);
 
+
   // Computed pour le  tri dynamique
   sortedArticles = computed(() => {
     return [...this.listArticles()].sort((a, b) => {
@@ -45,7 +46,7 @@ export class ArticlesComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadFeed();
-  }
+    }
 
   private loadFeed(): void {
     this.isLoading.set(true);
@@ -57,6 +58,7 @@ export class ArticlesComponent implements OnInit {
       next: (articles) => {
         this.listArticles.set(articles);
         this.isLoading.set(false);
+      
       },
       error: () => {
         this.errorMessage.set('Erreur lors du chargement des articles');
@@ -71,6 +73,7 @@ export class ArticlesComponent implements OnInit {
 
   goToArticle(id: number): void {
     this.router.navigate(['/articles', id]);
+    
   }
 
   goToCreate(): void {

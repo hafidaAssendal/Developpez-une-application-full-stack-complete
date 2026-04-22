@@ -7,7 +7,8 @@
     <button mat-raised-button color="primary" (click)="goToCreate()">
       Créer un article
     </button>
-    <button mat-stroked-button (click)="toggleSort()">
+    @if (sortedArticles().length > 0) {
+    <button mat-stroked-button  (click)="toggleSort()">
       Trier par
       @if (sortAsc()) {
         ↑ ancien
@@ -15,6 +16,7 @@
         ↓ récent
       }
     </button>
+  }
   </div>
 
   <!-- Loading -->
