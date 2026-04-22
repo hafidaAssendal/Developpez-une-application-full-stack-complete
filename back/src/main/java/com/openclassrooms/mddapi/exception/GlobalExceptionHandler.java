@@ -4,6 +4,7 @@ import com.openclassrooms.mddapi.payload.response.MessageResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -45,12 +46,14 @@ public class GlobalExceptionHandler {
       .body(new MessageResponse(message));
   }
 
-  @ExceptionHandler(AuthenticationException.class)
+  @ExceptionHandler({AuthenticationException.class, UsernameNotFoundException.class})
   public ResponseEntity<MessageResponse> handleAuth(AuthenticationException e) {
     return ResponseEntity
       .status(HttpStatus.UNAUTHORIZED)
       .body(new MessageResponse("Identifiants incorrects"));
   }
+
+//UsernameNotFoundException(401)
 
   @ExceptionHandler(Exception.class)
   public ResponseEntity<MessageResponse> handleGeneric(Exception e) {
