@@ -12,9 +12,9 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CommentResponse {
-  Long id;
-  String content;
-  String  authorUsername;
-  Long articleId;
+  private Long id;
+  private String content;
+  private String authorUsername;
+  private Long articleId;
   private LocalDateTime createdAt;
 }
