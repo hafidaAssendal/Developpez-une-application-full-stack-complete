@@ -1,0 +1,54 @@
+<app-header [showNav]="true" />
+<div class="create-container">
+    <div class="create-header">
+        <app-back-button />
+        <h1>Créer un nouvel article</h1>
+    </div>
+   
+    <form [formGroup]="articleForm" (ngSubmit)="submit()">
+
+        <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Selectionner un thème :</mat-label>
+            <mat-select formControlName="themeId">
+                @for( theme of themeList(); track theme.id){
+                <mat-option [value]="theme.id"> {{theme.title}}</mat-option>
+                }
+            </mat-select>
+            @if (articleForm.get('themeId')?.hasError('required')
+            && articleForm.get('themeId')?.touched) {
+            <mat-error>Le thème est obligatoire</mat-error>
+            }
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+            <mat-label>titre de l'article </mat-label>
+            <input matInput formControlName="title">
+            @if (articleForm.get('title')?.hasError('required')
+            && articleForm.get('title')?.touched) {
+            <mat-error>Le titre est obligatoire</mat-error>
+            }
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Contenu de l'article </mat-label>
+            <textarea matInput formControlName="content" rows="7"></textarea>
+            @if (articleForm.get('content')?.hasError('required')
+            && articleForm.get('content')?.touched) {
+            <mat-error>Le contenu est obligatoire</mat-error>
+            }
+        </mat-form-field>
+
+        @if (errorMessage()) {
+        <p class="error">{{ errorMessage() }}</p>
+        }
+        <button mat-raised-button color="primary" type="submit" [disabled]="articleForm.invalid || isLoading()">
+            @if (isLoading()) {
+            <mat-spinner diameter="20" />
+            } @else {
+            Créer
+            }
+        </button>
+
+    </form>
+
+</div>

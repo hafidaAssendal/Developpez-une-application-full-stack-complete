@@ -1,0 +1,60 @@
+<app-header [showNav]="true"/>
+
+<div class="detail-container">
+
+  @if (isLoading()) {
+    <div class="loading">
+      <mat-spinner diameter="48"/>
+    </div>
+  }
+
+  @if (errorMessage()) {
+    <p class="error">{{ errorMessage() }}</p>
+  }
+
+  @if (article()) {
+    <div class="article-wrapper">
+
+      <!-- Back + Titre -->
+      <div class="article-header">
+        <app-back-button/>
+        <h1>{{ article()!.title }}</h1>
+      </div>
+
+      <div class="article-meta">
+        <span>{{ article()!.createdAt | date:'dd/MM/yyyy' }}</span>
+        <span>{{ article()!.authorUsername }}</span>
+        <span>{{ article()!.themeTitle }}</span>
+      </div>
+      <p class="article-content">{{ article()!.content }}</p>
+
+      <mat-divider/>
+
+      
+      <section class="comments-section">
+        <h2>Commentaires</h2>
+
+        @for (comment of comments(); track comment.id) {
+          <div class="comment-item">
+            <span class="comment-author">{{ comment.authorUsername }}</span>
+            <p class="comment-content">{{ comment.content }}</p>
+          </div>
+        } @empty {
+          <p class="no-comments">Aucun commentaire pour le moment.</p>
+        }
+
+        <form [formGroup]="commentForm" class="comment-form">
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Écrivez votre commentaire</mat-label>
+            <textarea matInput formControlName="content" rows="3"></textarea>
+          </mat-form-field>
+          <button mat-icon-button color="primary" type="button" [disabled]="commentForm.invalid" (click)="sendComment()">
+          <mat-icon>send</mat-icon>
+          </button>
+        </form>
+
+      </section>
+    </div>
+  }
+
+</div>

@@ -29,6 +29,31 @@ export const routes: Routes = [
       .then(m => m.ArticlesComponent)
   },
   {
+    path: 'themes',
+    canActivate: [authGuard],
+    loadComponent: () => import('./pages/features/themes/theme/theme.component')
+      .then(m => m.ThemeComponent)
+  },
+  {
+    path:'articles/create',
+    canActivate:[authGuard],
+    loadComponent:()=>import(`./pages/features/articles/create-article/create-article.component`)
+    .then(m=>m.CreateArticleComponent)
+
+  },
+   {
+    path: 'articles/:id',
+    canActivate: [authGuard],
+    loadComponent: () => import('./pages/features/articles/detail-article/detail-article.component')
+      .then(m => m.DetailArticleComponent)
+  },
+  {
+    path:'profile',
+    canActivate:[authGuard],
+    loadComponent:()=>import('./shared/profile/profile.component')
+    .then(m=>m.ProfileComponent)
+  },
+  {
     path: '**',
     loadComponent: () => import('./shared//not-found/not-found.component')
       .then(m => m.NotFoundComponent)
