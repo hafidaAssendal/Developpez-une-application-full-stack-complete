@@ -4,7 +4,7 @@ import lombok.Data;
 import javax.validation.constraints.*;
 
 @Data
-public class UpdateProfileRequest {
+public class UpdateUserRequest {
 
   @Size(max = 50)
   private String username;

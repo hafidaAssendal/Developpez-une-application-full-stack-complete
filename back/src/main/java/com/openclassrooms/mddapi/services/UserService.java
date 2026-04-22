@@ -6,12 +6,11 @@ import com.openclassrooms.mddapi.exception.NotFoundException;
 import com.openclassrooms.mddapi.models.User;
 import com.openclassrooms.mddapi.payload.request.LoginRequest;
 import com.openclassrooms.mddapi.payload.request.SignupRequest;
-import com.openclassrooms.mddapi.payload.request.UpdateProfileRequest;
+import com.openclassrooms.mddapi.payload.request.UpdateUserRequest;
 import com.openclassrooms.mddapi.payload.response.JwtResponse;
 import com.openclassrooms.mddapi.payload.response.MessageResponse;
 import com.openclassrooms.mddapi.repository.UserRepository;
 import com.openclassrooms.mddapi.security.jwt.JwtUtils;
-import com.openclassrooms.mddapi.security.services.UserDetailsImpl;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -76,7 +75,7 @@ public class UserService {
   }
 
   // ===== UPDATE PROFILE =====
-  public User updateProfile(String email, UpdateProfileRequest request) {
+  public User updateProfile(String email, UpdateUserRequest request) {
 
     User user = userRepository.findByEmail(email)
       .orElseThrow(() -> new NotFoundException("Utilisateur introuvable"));

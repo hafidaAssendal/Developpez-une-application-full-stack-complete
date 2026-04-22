@@ -4,7 +4,7 @@ import com.openclassrooms.mddapi.mapper.UpdateUserMapper;
 import com.openclassrooms.mddapi.mapper.UserMapper;
 
 import com.openclassrooms.mddapi.models.User;
-import com.openclassrooms.mddapi.payload.request.UpdateProfileRequest;
+import com.openclassrooms.mddapi.payload.request.UpdateUserRequest;
 import com.openclassrooms.mddapi.payload.response.UpdateUserResponse;
 import com.openclassrooms.mddapi.payload.response.UserResponse;
 import com.openclassrooms.mddapi.security.jwt.JwtUtils;
@@ -41,7 +41,7 @@ public class UserController {
   // PATCH /api/user/me
   @PatchMapping("/me")
   public UpdateUserResponse updateProfile(Authentication authentication,
-                                          @Valid @RequestBody UpdateProfileRequest request) {
+                                          @Valid @RequestBody UpdateUserRequest request) {
     String oldEmail = authentication.getName();
     User user = userService.updateProfile(oldEmail, request);
 
