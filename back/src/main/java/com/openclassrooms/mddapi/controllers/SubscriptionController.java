@@ -20,22 +20,22 @@ public class SubscriptionController {
   }
 
   // POST /api/subscriptions/{id_theme}
-  @PostMapping("/{id_theme}")
+  @PostMapping("/{id}")
   @ResponseStatus(HttpStatus.CREATED)
   public MessageResponse subscribe(Authentication authentication,
-                                   @PathVariable Long id_theme) {
-    subscriptionService.subscribe(authentication.getName(), id_theme);
+                                   @PathVariable Long id) {
+    subscriptionService.subscribe(authentication.getName(), id);
     return new MessageResponse("Abonné!");
 
   }
 
   // DELETE  /api/subscriptions/{id_theme}
-  @DeleteMapping("/{id_theme}")
+  @DeleteMapping("/{id}")
   @ResponseStatus(HttpStatus.NO_CONTENT)
   public void unsubscribe(Authentication authentication,
-                          @PathVariable Long id_theme) {
+                          @PathVariable Long id) {
 
-    subscriptionService.unsubscribe(authentication.getName(), id_theme);
+    subscriptionService.unsubscribe(authentication.getName(), id);
 
   }
 }

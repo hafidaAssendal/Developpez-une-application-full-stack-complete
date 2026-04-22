@@ -37,10 +37,10 @@ public class ArticleController {
     return articleMapper.toDto(articleService.getAllArticles(authentication.getName()));
   }
 
-  // GET /api/articles/{id_article}
-  @GetMapping("/{id_article}")
-  public ArticleResponse detailArticle(Authentication authentication ,@PathVariable Long id_article) {
-    Article article = articleService.getArticleById(authentication.getName(),id_article);
+  // GET /api/articles/{id}
+  @GetMapping("/{id}")
+  public ArticleResponse detailArticle(Authentication authentication ,@PathVariable Long id) {
+    Article article = articleService.getArticleById(authentication.getName(),id);
     return articleMapper.toDto(article);
 
   }
@@ -55,20 +55,20 @@ public class ArticleController {
   }
 
   // POST /api/articles/{id_article}/comments
-  @PostMapping("/{id_article}/comments")
+  @PostMapping("/{id}/comments")
   @ResponseStatus(HttpStatus.CREATED)
-  public CommentResponse addComment(@PathVariable Long id_article,
+  public CommentResponse addComment(@PathVariable Long id,
                                     Authentication authentication,
                                     @Valid @RequestBody CommentRequest commentRequest) {
 
-    Comment comment = articleService.createComment(id_article, authentication.getName(), commentRequest);
+    Comment comment = articleService.createComment(id, authentication.getName(), commentRequest);
     return commentMapper.toDto(comment);
  }
 
   //GET  /api/articles/{id_articles}/comments
-  @GetMapping("/{id_article}/comments")
-  public List<CommentResponse> getComments(@PathVariable Long id_article) {
-    List<Comment> comments = articleService.getAllComments(id_article);
+  @GetMapping("/{id}/comments")
+  public List<CommentResponse> getComments(@PathVariable Long id) {
+    List<Comment> comments = articleService.getAllComments(id);
     return commentMapper.toDto(comments);
   }
 

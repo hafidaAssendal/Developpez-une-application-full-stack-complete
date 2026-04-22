@@ -30,7 +30,8 @@ public class AuthController {
   @PostMapping("/register")
   @ResponseStatus(HttpStatus.CREATED) //201
   public MessageResponse register(@Valid @RequestBody SignupRequest request) {
-    return userService.register(request);
+
+        return userService.register(request);
   }
 
 }
