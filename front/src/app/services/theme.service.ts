@@ -11,15 +11,19 @@ import { AuthService } from '../pages/auth/services/auth.service';
 })
 export class ThemeService {
 
-  constructor(private http:  HttpClient) { }
+  constructor(private http: HttpClient) { }
 
-  getThemes():Observable<Theme[]>{
+  getThemes(): Observable<Theme[]> {
 
     return this.http.get<Theme[]>(`${environment.apiUrl}/themes`);
   }
-  subscribe(idTheme:number):Observable<MessageResponse>{
 
-   return this.http.post<MessageResponse>(`${environment.apiUrl}/subscriptions/${idTheme}`,{})
-   
+  subscribe(idTheme: number): Observable<MessageResponse> {
+
+    return this.http.post<MessageResponse>(`${environment.apiUrl}/subscriptions/${idTheme}`, {})
   }
-}
+  unSubscribe(idTheme: number): Observable<void> {
+    return this.http.delete<void>(`${environment.apiUrl}/subscriptions/${idTheme}`);
+ }
+  
+  }
