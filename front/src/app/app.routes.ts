@@ -50,7 +50,7 @@ export const routes: Routes = [
   {
     path:'profile',
     canActivate:[authGuard],
-    loadComponent:()=>import('./shared/profile/profile.component')
+    loadComponent:()=>import('./pages/features/profile/profile.component')
     .then(m=>m.ProfileComponent)
   },
   {
