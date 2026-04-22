@@ -11,12 +11,14 @@ import com.openclassrooms.mddapi.payload.response.JwtResponse;
 import com.openclassrooms.mddapi.payload.response.MessageResponse;
 import com.openclassrooms.mddapi.repository.UserRepository;
 import com.openclassrooms.mddapi.security.jwt.JwtUtils;
+import com.openclassrooms.mddapi.security.services.UserDetailsImpl;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 @Service
 public class UserService {
@@ -39,15 +41,12 @@ public class UserService {
   // ===== LOGIN =====
   public JwtResponse login(LoginRequest request) {
 
-    User user = userRepository
-      .findByEmailOrUsername(request.getIdentifier(), request.getIdentifier())
-      .orElseThrow(() -> new NotFoundException("Identifiants incorrects"));
-
     Authentication authentication = authenticationManager.authenticate(
-      new UsernamePasswordAuthenticationToken(user.getEmail(), request.getPassword())
+      new UsernamePasswordAuthenticationToken(request.getIdentifier(), request.getPassword())
     );
     SecurityContextHolder.getContext().setAuthentication(authentication);
-    String jwt = jwtUtils.generateJwtToken(authentication);
+
+    String jwt = jwtUtils.generateJwtToken(authentication.getName());
     return new JwtResponse(jwt);
   }
 
@@ -78,10 +77,11 @@ public class UserService {
 
   // ===== UPDATE PROFILE =====
   public User updateProfile(String email, UpdateProfileRequest request) {
+
     User user = userRepository.findByEmail(email)
       .orElseThrow(() -> new NotFoundException("Utilisateur introuvable"));
 
-    if (request.getUsername() != null && !request.getUsername().isBlank()) {
+    if (!StringUtils.isEmpty(request.getUsername()) ) {
       if (!user.getUsername().equals(request.getUsername())
         && userRepository.existsByUsername(request.getUsername())) {
         throw new BadRequestException("Nom d'utilisateur déjà utilisé");
@@ -89,7 +89,7 @@ public class UserService {
       user.setUsername(request.getUsername());
     }
 
-    if (request.getEmail() != null && !request.getEmail().isBlank()) {
+    if (!StringUtils.isEmpty(request.getEmail())){
       if (!user.getEmail().equals(request.getEmail())
         && userRepository.existsByEmail(request.getEmail())) {
         throw new BadRequestException("Email déjà utilisé");
@@ -97,7 +97,7 @@ public class UserService {
       user.setEmail(request.getEmail());
     }
 
-    if (request.getPassword() != null && !request.getPassword().isBlank()) {
+    if (!StringUtils.isEmpty((request.getPassword()))){
       user.setPassword(passwordEncoder.encode(request.getPassword()));
     }
 

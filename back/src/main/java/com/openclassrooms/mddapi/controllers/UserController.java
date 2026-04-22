@@ -1,9 +1,13 @@
 package com.openclassrooms.mddapi.controllers;
 
+import com.openclassrooms.mddapi.mapper.UpdateUserMapper;
 import com.openclassrooms.mddapi.mapper.UserMapper;
+
 import com.openclassrooms.mddapi.models.User;
 import com.openclassrooms.mddapi.payload.request.UpdateProfileRequest;
+import com.openclassrooms.mddapi.payload.response.UpdateUserResponse;
 import com.openclassrooms.mddapi.payload.response.UserResponse;
+import com.openclassrooms.mddapi.security.jwt.JwtUtils;
 import com.openclassrooms.mddapi.services.UserService;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
@@ -14,14 +18,17 @@ import javax.validation.Valid;
 @RestController
 @RequestMapping("/api/user")
 public class UserController {
-
+ private final JwtUtils jwtUtils;
   private final UserService userService;
   private final UserMapper userMapper;
+  private final UpdateUserMapper updateUserMapper;
 
-  public UserController(UserService userService,
-                        UserMapper userMapper) {
+  public UserController(JwtUtils jwtUtils, UserService userService,
+                        UserMapper userMapper, UpdateUserMapper updateUserMapper) {
+    this.jwtUtils = jwtUtils;
     this.userService = userService;
     this.userMapper = userMapper;
+    this.updateUserMapper = updateUserMapper;
   }
 
   // GET /api/user/me
@@ -33,10 +40,17 @@ public class UserController {
 
   // PATCH /api/user/me
   @PatchMapping("/me")
-  public UserResponse updateProfile(Authentication authentication,
-                                    @Valid @RequestBody UpdateProfileRequest request) {
-    User user = userService.updateProfile(authentication.getName(), request);
-    return userMapper.toDto(user);
+  public UpdateUserResponse updateProfile(Authentication authentication,
+                                          @Valid @RequestBody UpdateProfileRequest request) {
+    String oldEmail = authentication.getName();
+    User user = userService.updateProfile(oldEmail, request);
 
+    UpdateUserResponse response = updateUserMapper.toDto(user);
+
+    // Régénérer token seulement si email changé
+    if (request.getEmail() != null && !request.getEmail().equals(oldEmail)) {
+      response.setToken(jwtUtils.generateJwtToken(user.getEmail()));
+    }
+    return  response;
   }
 }
