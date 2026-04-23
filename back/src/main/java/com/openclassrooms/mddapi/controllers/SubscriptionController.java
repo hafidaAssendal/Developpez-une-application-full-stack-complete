@@ -1,11 +1,8 @@
 package com.openclassrooms.mddapi.controllers;
 
-import com.openclassrooms.mddapi.exception.BadRequestException;
-import com.openclassrooms.mddapi.exception.NotFoundException;
 import com.openclassrooms.mddapi.payload.response.MessageResponse;
-import com.openclassrooms.mddapi.services.SubscriptionService;
+import com.openclassrooms.mddapi.services.ISubscriptionService;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,9 +10,9 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("api/subscriptions")
 public class SubscriptionController {
-  private final SubscriptionService subscriptionService;
+  private final ISubscriptionService subscriptionService;
 
-  public SubscriptionController(SubscriptionService subscriptionService) {
+  public SubscriptionController(ISubscriptionService subscriptionService) {
     this.subscriptionService = subscriptionService;
   }
 

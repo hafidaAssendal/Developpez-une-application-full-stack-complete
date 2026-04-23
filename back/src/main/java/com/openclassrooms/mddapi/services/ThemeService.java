@@ -12,7 +12,7 @@ import java.util.List;
 
 
 @Service
-public class ThemeService {
+public class ThemeService implements IThemeService{
   private final ThemeRepository themeRepository;
   private final SubscriptionRepository subscriptionRepository;
   private final UserRepository userRepository;

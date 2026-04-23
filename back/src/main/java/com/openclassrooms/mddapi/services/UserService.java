@@ -20,7 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 @Service
-public class UserService {
+public class UserService  implements IUserService{
 
   private final AuthenticationManager authenticationManager;
   private final UserRepository userRepository;

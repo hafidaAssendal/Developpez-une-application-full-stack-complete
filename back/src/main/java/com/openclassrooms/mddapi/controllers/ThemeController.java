@@ -1,11 +1,10 @@
 package com.openclassrooms.mddapi.controllers;
 
-import com.openclassrooms.mddapi.exception.NotFoundException;
+
 import com.openclassrooms.mddapi.mapper.ThemeMapper;
 import com.openclassrooms.mddapi.models.Theme;
 import com.openclassrooms.mddapi.payload.response.ThemeResponse;
-import com.openclassrooms.mddapi.services.ThemeService;
-import org.springframework.http.ResponseEntity;
+import com.openclassrooms.mddapi.services.IThemeService;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,10 +18,10 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api/themes")
 public class ThemeController {
-  private final ThemeService themeService;
+  private final IThemeService themeService;
   private final ThemeMapper themeMapper;
 
-  public ThemeController(ThemeService themeService, ThemeMapper themeMapper) {
+  public ThemeController(IThemeService themeService, ThemeMapper themeMapper) {
     this.themeService = themeService;
     this.themeMapper = themeMapper;
   }

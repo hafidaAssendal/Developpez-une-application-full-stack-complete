@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-public class SubscriptionService {
+public class SubscriptionService implements ISubscriptionService {
   private final SubscriptionRepository subscriptionRepository;
   private final UserRepository userRepository;
   private final ThemeRepository themeRepository;

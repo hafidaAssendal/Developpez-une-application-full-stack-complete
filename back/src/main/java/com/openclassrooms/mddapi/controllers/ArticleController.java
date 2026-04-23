@@ -8,7 +8,7 @@ import com.openclassrooms.mddapi.payload.request.ArticleRequest;
 import com.openclassrooms.mddapi.payload.request.CommentRequest;
 import com.openclassrooms.mddapi.payload.response.ArticleResponse;
 import com.openclassrooms.mddapi.payload.response.CommentResponse;
-import com.openclassrooms.mddapi.services.ArticleService;
+import com.openclassrooms.mddapi.services.IArticleService;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
@@ -20,11 +20,11 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/articles")
 public class ArticleController {
-  private final ArticleService articleService;
+  private final IArticleService articleService;
   private final ArticleMapper articleMapper;
   private final CommentMapper commentMapper;
 
-  public ArticleController(ArticleService articleService, ArticleMapper articleMapper, CommentMapper commentMapper) {
+  public ArticleController(IArticleService articleService, ArticleMapper articleMapper, CommentMapper commentMapper) {
     this.articleService = articleService;
     this.articleMapper = articleMapper;
     this.commentMapper = commentMapper;

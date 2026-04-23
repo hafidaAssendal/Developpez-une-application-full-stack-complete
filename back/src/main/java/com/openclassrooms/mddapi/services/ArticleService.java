@@ -15,7 +15,7 @@ import java.util.List;
 
 @Builder
 @Service
-public class ArticleService {
+public class ArticleService implements  IArticleService{
   private final ArticleRepository articleRepository;
   private final UserRepository userRepository;
   private final ThemeRepository themeRepository;
